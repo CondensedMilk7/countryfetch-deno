@@ -1,5 +1,6 @@
 // For better currency types, this can be used later:
 // https://github.com/freeall/currency-codes
+// Same can be done for language abbreviations
 export type CurrencyAbbr = string;
 export type CurrencyInfo = { name: string; symbol: string };
 export type LangAbbr = string;
