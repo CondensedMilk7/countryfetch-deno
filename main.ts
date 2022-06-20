@@ -1,23 +1,19 @@
-import {
-  syncCountries,
-  printCountry,
-  findCountry,
-  randomCountry,
-} from "./countries.util.ts";
+import { Countries } from "./countries.ts";
 
-await syncCountries();
+const countries = new Countries();
+
+await countries.sync();
 
 const arg = Deno.args[0];
 
 if (arg === "sync") {
-  await syncCountries(true);
+  await countries.sync({ force: true });
 }
 
 if (arg === "random") {
-  printCountry(randomCountry());
+  countries.print(countries.random());
 }
 
 if (arg === "find") {
-  let selectedCountry = findCountry(Deno.args[1]);
-  printCountry(selectedCountry);
+  countries.print(Deno.args[1]);
 }

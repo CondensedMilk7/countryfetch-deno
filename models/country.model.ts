@@ -15,4 +15,5 @@ export interface Country {
   flag: string;
   population: number;
   languages: Record<LangAbbr, string>;
+  region: string;
 }

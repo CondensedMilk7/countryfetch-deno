@@ -10,5 +10,6 @@ export const environment = {
     "flag," +
     "region," +
     "continent," +
-    "languages",
+    "languages," +
+    "region",
 };
