@@ -1,37 +1,47 @@
 import * as nano from "https://deno.land/x/nanocolors@0.1.12/mod.ts";
 import { environment } from "./environment/environment.ts";
 import { Country } from "./models/country.model.ts";
+import { Cache } from "./util/cache.ts";
 
 export class Countries {
   list: Country[] = [];
   names: string[] = [];
   query = environment.queries;
 
+  constructor(private cache: Cache) {}
+
   async sync(config?: { force: boolean }): Promise<Country[]> {
-    const lastSynced = localStorage.getItem("lastSynced");
-    const savedCountries = localStorage.getItem("countries");
+    const lastSynced = this.cache.readTxt("last-synced");
+    const savedCountries = this.cache.readJson("countries") as
+      | Country[]
+      | undefined;
     const week = environment.syncInterval * 23 * 60 * 60 * 1000;
-    if (
+
+    const shouldSync =
       !savedCountries ||
       !lastSynced ||
       config?.force ||
-      Date.now() - Number(lastSynced) > week
-    ) {
+      Date.now() - Number(lastSynced) > week;
+
+    if (shouldSync) {
       console.log(
         nano.cyan("Syncronizing countries database..."),
         config?.force
           ? ""
           : `\nThis will only happen every ${environment.syncInterval} days`
       );
+
       // Fetch and parse countries data from API
       const response = await fetch(environment.baseUrl + this.query);
       const countries = (await response.json()) as Country[];
+
       this.list = countries;
-      localStorage.setItem("countries", JSON.stringify(countries));
-      localStorage.setItem("lastSynced", JSON.stringify(Date.now()));
+      this.cache.saveJson("countries", countries);
+      this.cache.saveTxt("last-synced", JSON.stringify(Date.now()));
+
       console.log("Synced successfully");
     } else {
-      this.list = JSON.parse(savedCountries);
+      this.list = savedCountries;
     }
     this.names = this.list.map((c) => c.name.common);
     return this.list;

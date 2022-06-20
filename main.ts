@@ -1,6 +1,7 @@
 import { Countries } from "./countries.ts";
+import { Cache } from "./util/cache.ts";
 
-const countries = new Countries();
+const countries = new Countries(new Cache());
 
 await countries.sync();
 
