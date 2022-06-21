@@ -47,7 +47,7 @@ export class Countries {
     return this.list;
   }
 
-  find(name: string): Country {
+  find(name: string) {
     name = name.toLowerCase();
     // Find exact match first, then fall back to fuzzy match
     const country = this.list.find((c) => {
@@ -57,6 +57,21 @@ export class Countries {
 
     if (!country) {
       throw Error(`Cannot find country named ${name}`);
+    }
+
+    return country;
+  }
+
+  findByCapital(capital: string) {
+    const country = this.list.find((c) => {
+      const capitalsLowercase = c.capital.map((capital) =>
+        capital.toLowerCase()
+      );
+      return capitalsLowercase.includes(capital);
+    });
+
+    if (!country) {
+      throw Error(`Could not find the country of capital: ${capital}`);
     }
 
     return country;

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# Just a short-hand to run instead of typing it out in termina during development
+# Just a short-hand to run instead of typing it out in terminal during development
 deno run --allow-all ./main.ts "$@"
