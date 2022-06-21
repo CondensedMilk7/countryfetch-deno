@@ -48,12 +48,10 @@ export class Countries {
   }
 
   find(name: string): Country {
-    // Replace snake case or kebab case with whitespaces
-    name = name.toLowerCase().replace(/-|_/g, " ");
-
+    name = name.toLowerCase();
     // Find exact match first, then fall back to fuzzy match
     const country = this.list.find((c) => {
-      const countryName = c.name.common.toLocaleLowerCase();
+      const countryName = c.name.common.toLowerCase();
       return countryName === name || countryName.includes(name);
     });
 
@@ -80,15 +78,17 @@ export class Countries {
 
     let languages = [];
     for (const langAbbr in country.languages) {
-      languages.push(country.languages[langAbbr] + " ");
+      languages.push(country.languages[langAbbr]);
     }
+
+    // above code needs refactoring
 
     console.log(
       nano.cyan("\nCountry:\t"),
-      country.flag,
       country.name.common,
+      country.flag,
       nano.green("\nLanguages:\t"),
-      ...languages,
+      languages.join(" | "),
       nano.green("\nCapital:\t"),
       country.capital[0],
       nano.green("\nRegion:\t\t"),

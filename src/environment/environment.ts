@@ -1,4 +1,4 @@
-import home_dir from "https://deno.land/x/dir/home_dir/mod.ts";
+import home_dir from "https://deno.land/x/dir@1.4.0/home_dir/mod.ts";
 import { join } from "https://deno.land/std@0.144.0/path/mod.ts";
 
 export const environment = {

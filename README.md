@@ -19,6 +19,7 @@ git clone https://github.com/CondensedMilk7/countryfetch.git
 navigate to the cloned repo folder and run install:
 
 ```bash
+cd ./countryfetch
 ./install.sh
 ```
 
@@ -43,20 +44,20 @@ alias countryfetch="~/.local/bin/countryfetch"
 countryfetch <arguments>
 ```
 
-available arguments:
+### Arguments:
 
-- `find <country-name>` - Find country information by name. Country names cannot have whitespaces, use kebab-case or snake_case instead.
-- `sync` - Synchronizes databes, stores it in localStorage. This is done automatically, but can be triggered manually.
+- `<country_name>` - Find country information by name. Country names cannot have whitespaces, use kebab-case or snake_case instead.
+- `sync` - Fetches data from API and stores it in `~/.cache/countryfetch/countries.json`. This is done automatically, but can be triggered manually.
 - `random` - Get random country information.
 
-example:
+### Example:
 
 ```
-$ countryfetch find germany
+$ countryfetch germany
 
 # output:
 
-Country:	🇩🇪 Germany
+Country:	Germany 🇩🇪
 Languages:	German
 Capital:	Berlin
 Region:		Europe
@@ -64,10 +65,6 @@ Population:	83,240,525
 Currencies:	Euro [€](EUR)
 
 ```
-
-## Known issues
-
-- App will not match names that include "-", which is replaced by whitespace by program.
 
 ## Contribution
 
