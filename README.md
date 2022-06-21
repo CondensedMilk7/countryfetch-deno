@@ -47,6 +47,7 @@ countryfetch <arguments>
 ### Arguments:
 
 - `<country_name>` - Find country information by name. Country names cannot have whitespaces, use kebab-case or snake_case instead.
+- `capital <capital>` - Find country to which the specified capital belongs.
 - `sync` - Fetches data from API and stores it in `~/.cache/countryfetch/countries.json`. This is done automatically, but can be triggered manually.
 - `random` - Get random country information.
 
