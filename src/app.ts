@@ -8,6 +8,9 @@ export async function app() {
 
   await countries.sync();
   switch (command) {
+    case undefined:
+      help();
+      break;
     case "sync":
       await countries.sync({ force: true });
       break;
