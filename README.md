@@ -68,6 +68,10 @@ Currencies:	Euro [€](EUR)
 
 ```
 
+## What's to come
+
+I'm thinking about adding a capital guessing game.
+
 ## Contribution
 
 I will add new features when I have time, but you don't have to wait - add them yourself! Submit pull requests, or fork it and make it your own alltogether.
