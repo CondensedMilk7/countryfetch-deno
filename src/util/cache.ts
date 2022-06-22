@@ -1,5 +1,8 @@
 import { join } from "https://deno.land/std@0.144.0/path/mod.ts";
-import { ensureDirSync } from "https://deno.land/std@0.78.0/fs/mod.ts";
+import {
+  ensureDirSync,
+  existsSync,
+} from "https://deno.land/std@0.78.0/fs/mod.ts";
 import { environment } from "../environment/environment.ts";
 
 export class Cache {
@@ -35,5 +38,9 @@ export class Cache {
     } catch (err) {
       return undefined;
     }
+  }
+
+  public exists(name: string, extension?: string) {
+    return existsSync(join(this.path, `${name}${extension}`));
   }
 }

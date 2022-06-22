@@ -50,6 +50,7 @@ countryfetch <arguments>
 - `capital <capital>` - Find country to which the specified capital belongs.
 - `sync` - Fetches data from API and stores it in `~/.cache/countryfetch/countries.json`. This is done automatically, but can be triggered manually.
 - `random` - Get random country information.
+- `raw` - Print country information in raw format as JavaScript object.
 
 ### Example:
 

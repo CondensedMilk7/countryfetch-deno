@@ -1,31 +1,24 @@
-import * as nano from "https://deno.land/x/nanocolors@0.1.12/mod.ts";
 import { environment } from "./environment/environment.ts";
-import { Country } from "./models/country.model.ts";
+import {
+  Country,
+  Region,
+  Currencies,
+  Languages,
+} from "./models/country.model.ts";
 import { Cache } from "./util/cache.ts";
+import { Logger } from "./util/logger.ts";
 
 export class Countries {
   list: Country[] = [];
   names: string[] = [];
   query = environment.queries;
 
-  constructor(private cache: Cache) {}
+  constructor(private cache: Cache, private logger: Logger) {}
 
-  async sync(config?: { force: boolean }): Promise<Country[]> {
-    const lastSynced = this.cache.readTxt("last-synced");
-    const savedCountries = this.cache.readJson("countries") as
-      | Country[]
-      | undefined;
-    const week = environment.syncInterval * 23 * 60 * 60 * 1000;
-
-    const shouldSync =
-      !savedCountries ||
-      !lastSynced ||
-      config?.force ||
-      Date.now() - Number(lastSynced) > week;
-
-    if (shouldSync) {
-      console.log(
-        nano.cyan("Syncronizing countries database..."),
+  public async sync(config?: { force: boolean }): Promise<Country[]> {
+    if (this.shouldSync() || config?.force) {
+      this.logger.alert(
+        "Synchronizing countries database...",
         config?.force
           ? ""
           : `\nThis will only happen every ${environment.syncInterval} days`
@@ -39,15 +32,21 @@ export class Countries {
       this.cache.saveJson("countries", countries);
       this.cache.saveTxt("last-synced", JSON.stringify(Date.now()));
 
-      console.log("Synced successfully");
+      this.logger.success(
+        `Synced successfully: cache saved at ${environment.cacheDir}`
+      );
     } else {
-      this.list = savedCountries;
+      this.list = this.cache.readJson("countries") as Country[];
     }
     this.names = this.list.map((c) => c.name.common);
     return this.list;
   }
 
-  find(name: string) {
+  getAll() {
+    return this.list;
+  }
+
+  public find(name: string) {
     name = name.toLowerCase();
     // Find exact match first, then fall back to fuzzy match
     const country = this.list.find((c) => {
@@ -56,13 +55,12 @@ export class Countries {
     });
 
     if (!country) {
-      throw Error(`Cannot find country named ${name}`);
+      throw `Cannot find country named ${name}`;
     }
-
     return country;
   }
 
-  findByCapital(capital: string) {
+  public findByCapital(capital: string) {
     const country = this.list.find((c) => {
       const capitalsLowercase = c.capital.map((capital) =>
         capital.toLowerCase()
@@ -71,52 +69,65 @@ export class Countries {
     });
 
     if (!country) {
-      throw Error(`Could not find the country of capital: ${capital}`);
+      throw `Could not find the country of capital: ${capital}`;
     }
 
     return country;
   }
 
-  print(name: string) {
-    const country = this.find(name);
-    let currencies = [];
-    let iteration = 0;
-    for (const currencyAbbr in country.currencies) {
-      iteration++;
-      const currency = country.currencies[currencyAbbr];
-      currencies.push(
-        `${iteration > 1 ? "\t\t " : ""}${currency.name} [${
-          currency.symbol
-        }](${currencyAbbr})\n`
-      );
-    }
-
-    let languages = [];
-    for (const langAbbr in country.languages) {
-      languages.push(country.languages[langAbbr]);
-    }
-
-    // above code needs refactoring
-
-    console.log(
-      nano.cyan("\nCountry:\t"),
-      country.name.common,
-      country.flag,
-      nano.green("\nLanguages:\t"),
-      languages.join(" | "),
-      nano.green("\nCapital:\t"),
-      country.capital[0],
-      nano.green("\nRegion:\t\t"),
-      country.region,
-      nano.green("\nPopulation:\t"),
-      country.population.toLocaleString(),
-      nano.green("\nCurrencies:\t"),
-      ...currencies
-    );
+  capitalOf(capital: string) {
+    const country = this.findByCapital(capital);
+    this.logger.capitalOf(capital, country.name.common);
   }
 
-  random(): string {
+  public filterByRegion(region: Region) {
+    return this.list.filter((country) => country.region === region);
+  }
+
+  public print(name: string) {
+    const country = this.find(name);
+    const currencies = this.extractCurrencies(country.currencies);
+    const languages = this.extractLanguages(country.languages);
+
+    this.logger.logCountry({
+      country: country.name.common,
+      capital: country.capital[0],
+      flag: country.flag,
+      population: country.population,
+      region: country.region,
+      currencies,
+      languages,
+    });
+  }
+
+  public random(): string {
     const randomNum = Math.floor(Math.random() * this.names.length);
     return this.names[randomNum];
+  }
+
+  private shouldSync() {
+    const lastSynced = this.cache.readTxt("last-synced");
+    const cacheExists = this.cache.exists("countries", ".json");
+    const week = environment.syncInterval * 23 * 60 * 60 * 1000;
+    const updateDue = Date.now() - Number(lastSynced) > week;
+
+    return !cacheExists || !lastSynced || updateDue;
+  }
+
+  private extractCurrencies(currencies: Currencies) {
+    const result = [];
+    for (const currencyAbbr in currencies) {
+      const currency = currencies[currencyAbbr];
+      result.push(`${currency.name} [${currency.symbol}](${currencyAbbr})`);
+    }
+    return result.join("\n\t\t ");
+  }
+
+  private extractLanguages(languages: Languages) {
+    const result = [];
+    for (const langAbbr in languages) {
+      result.push(languages[langAbbr]);
+    }
+    return result.join(" | ");
   }
 }

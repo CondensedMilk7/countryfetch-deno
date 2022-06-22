@@ -1,9 +1,20 @@
 // For better currency types, this can be used later:
 // https://github.com/freeall/currency-codes
 // Same can be done for language abbreviations
-export type CurrencyAbbr = string;
-export type CurrencyInfo = { name: string; symbol: string };
-export type LangAbbr = string;
+type CurrencyAbbr = string;
+type CurrencyInfo = { name: string; symbol: string };
+type LangAbbr = string;
+
+export type Currencies = Record<CurrencyAbbr, CurrencyInfo>;
+export type Languages = Record<LangAbbr, string>;
+export enum Region {
+  Asia = "Asia",
+  Europe = "Europe",
+  Americas = "Americas",
+  Africa = "Africa",
+  Oceania = "Oceania",
+  Antarctic = "Antarctic",
+}
 
 export interface Country {
   name: {
@@ -11,10 +22,10 @@ export interface Country {
     official: string;
     // Need type for nativeName later
   };
-  currencies: Record<CurrencyAbbr, CurrencyInfo>;
+  currencies: Currencies;
   capital: string[];
   flag: string;
   population: number;
-  languages: Record<LangAbbr, string>;
-  region: string;
+  languages: Languages;
+  region: Region;
 }
