@@ -30,7 +30,7 @@ export class Logger {
       nano.green("\nRegion:\t\t"),
       country.region,
       nano.green("\nPopulation:\t"),
-      country.population.toLocaleString(),
+      country.population,
       nano.green("\nCurrencies:\t"),
       country.currencies
     );

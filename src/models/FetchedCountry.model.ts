@@ -4,6 +4,6 @@ export interface FetchedCountry {
   languages: string;
   capital: string;
   region: string;
-  population: number;
+  population: string;
   currencies: string;
 }

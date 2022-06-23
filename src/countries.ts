@@ -93,7 +93,7 @@ export class Countries {
       country: country.name.common,
       capital: country.capital[0],
       flag: country.flag,
-      population: country.population,
+      population: country.population.toLocaleString(),
       region: country.region,
       currencies,
       languages,
