@@ -48,15 +48,25 @@ export class Countries {
 
   public find(name: string) {
     name = name.toLowerCase();
-    // Find exact match first, then fall back to fuzzy match
-    const country = this.list.find((c) => {
+
+    // Find exact match first
+    let country = this.list.find((c) => {
       const countryName = c.name.common.toLowerCase();
-      return countryName === name || countryName.includes(name);
+      return countryName === name;
     });
+
+    // Find fuzzy match if exact was not found
+    if (!country) {
+      country = this.list.find((c) => {
+        const countryName = c.name.common.toLowerCase();
+        return countryName.includes(name);
+      });
+    }
 
     if (!country) {
       throw `Cannot find country named ${name}`;
     }
+
     return country;
   }
 
