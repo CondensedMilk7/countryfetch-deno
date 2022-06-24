@@ -28,4 +28,10 @@ export interface Country {
   population: number;
   languages: Languages;
   region: Region;
+  subregion: string; //can later be explicit enum
+  timezones: string[];
+  latlng: number[];
+  capitalInfo: {
+    latlng: number[];
+  };
 }

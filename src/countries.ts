@@ -101,10 +101,14 @@ export class Countries {
 
     this.logger.logCountry({
       country: country.name.common,
+      latlng: country.latlng.join("/"),
       capital: country.capital[0],
       flag: country.flag,
       population: country.population.toLocaleString(),
       region: country.region,
+      subregion: country.subregion,
+      capitalLatLng: country.capitalInfo.latlng.join("/"),
+      timezones: country.timezones.join("\n\t\t "),
       currencies,
       languages,
     });
