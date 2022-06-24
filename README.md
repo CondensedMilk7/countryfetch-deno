@@ -57,20 +57,25 @@ countryfetch <arguments>
 ```
 $ countryfetch germany
 
-# output:
-
-Country:	Germany 🇩🇪
-Languages:	German
-Capital:	Berlin
-Region:		Europe
-Population:	83,240,525
+Country:	Germany 🇩🇪 
+Lat/Lng		51/9 
+Population:	83,240,525 
+Languages:	German 
+Capital:	Berlin 
+Capital Lat/Lng: 52.52/13.4 
+Region:		Europe 
+Subregion:	Western Europe 
+Timezones:	UTC+01:00 
 Currencies:	Euro [€](EUR)
 
 ```
 
-## What's to come
+## Would be nice to have in the future (a bit ambitious):
 
-I'm thinking about adding a capital guessing game.
+- Users can customize which information to display about country,
+- Get only one particular property about country (for example, get just the timezone of Netherlands).
+- Custom query builder that makes a direct call to api and returns a readable information.
+- A capital guessing game.
 
 ## Contribution
 
