@@ -57,22 +57,23 @@ countryfetch <arguments>
 ```
 $ countryfetch germany
 
-Country:	Germany 🇩🇪 
-Lat/Lng		51/9 
-Population:	83,240,525 
-Languages:	German 
-Capital:	Berlin 
-Capital Lat/Lng: 52.52/13.4 
-Region:		Europe 
-Subregion:	Western Europe 
-Timezones:	UTC+01:00 
+Country:	Germany 🇩🇪
+Lat/Lng		51/9
+Population:	83,240,525
+Languages:	German
+Capital:	Berlin
+Capital Lat/Lng: 52.52/13.4
+Region:		Europe
+Subregion:	Western Europe
+Timezones:	UTC+01:00
 Currencies:	Euro [€](EUR)
 
 ```
 
 ## Would be nice to have in the future (a bit ambitious):
 
-- Users can customize which information to display about country,
+- Display country flag in ASCII format (like in neofetch).
+- Users can customize which information to display about country.
 - Get only one particular property about country (for example, get just the timezone of Netherlands).
 - Custom query builder that makes a direct call to api and returns a readable information.
 - A capital guessing game.
