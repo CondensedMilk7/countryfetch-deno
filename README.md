@@ -70,6 +70,11 @@ Currencies:	Euro [€](EUR)
 
 ```
 
+## Troubleshooting
+
+If you get an error after installing the newer version of the program, such as "cannot read properties of undefined",
+you might have an outdated cache. Try running `countryfetch sync` to update the cache.
+
 ## Would be nice to have in the future (a bit ambitious):
 
 - Display country flag in ASCII format (like in neofetch).
