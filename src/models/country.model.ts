@@ -34,4 +34,5 @@ export interface Country {
   capitalInfo: {
     latlng: number[];
   };
+  tld: string[];
 }

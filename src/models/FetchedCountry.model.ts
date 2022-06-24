@@ -10,4 +10,5 @@ export interface FetchedCountry {
   population: string;
   currencies: string;
   timezones: string;
+  tld: string;
 }

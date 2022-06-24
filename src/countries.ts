@@ -108,7 +108,8 @@ export class Countries {
       region: country.region,
       subregion: country.subregion,
       capitalLatLng: country.capitalInfo.latlng.join("/"),
-      timezones: country.timezones.join("\n\t\t "),
+      timezones: country.timezones.join("\n\t\t\t "),
+      tld: country.tld.join(" | "),
       currencies,
       languages,
     });
@@ -134,7 +135,7 @@ export class Countries {
       const currency = currencies[currencyAbbr];
       result.push(`${currency.name} [${currency.symbol}](${currencyAbbr})`);
     }
-    return result.join("\n\t\t ");
+    return result.join("\n\t\t\t ");
   }
 
   private extractLanguages(languages: Languages) {

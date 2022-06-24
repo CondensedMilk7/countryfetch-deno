@@ -20,26 +20,28 @@ export class Logger {
 
   public logCountry(country: FetchedCountry) {
     console.log(
-      nano.cyan("\nCountry:\t"),
+      nano.cyan("\nCountry:\t\t"),
       country.country,
       country.flag,
-      nano.green("\nLat/Lng\t\t"),
+      nano.green("\nLat/Lng\t\t\t"),
       country.latlng,
-      nano.green("\nPopulation:\t"),
+      nano.green("\nPopulation:\t\t"),
       country.population,
-      nano.green("\nLanguages:\t"),
+      nano.green("\nLanguages:\t\t"),
       country.languages,
-      nano.green("\nCapital:\t"),
+      nano.green("\nCapital:\t\t"),
       country.capital,
-      nano.green("\nCapital Lat/Lng:"),
+      nano.green("\nCapital Lat/Lng:\t"),
       country.capitalLatLng,
-      nano.green("\nRegion:\t\t"),
+      nano.green("\nRegion:\t\t\t"),
       country.region,
-      nano.green("\nSubregion:\t"),
+      nano.green("\nSubregion:\t\t"),
       country.subregion,
-      nano.green("\nTimezones:\t"),
+      nano.green("\nTimezones:\t\t"),
       country.timezones,
-      nano.green("\nCurrencies:\t"),
+      nano.green("\nTop Level Domain:\t"),
+      country.tld,
+      nano.green("\nCurrencies:\t\t"),
       country.currencies
     );
   }

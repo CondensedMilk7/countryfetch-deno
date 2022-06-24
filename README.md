@@ -57,16 +57,17 @@ countryfetch <arguments>
 ```
 $ countryfetch germany
 
-Country:	Germany 🇩🇪
-Lat/Lng		51/9
-Population:	83,240,525
-Languages:	German
-Capital:	Berlin
-Capital Lat/Lng: 52.52/13.4
-Region:		Europe
-Subregion:	Western Europe
-Timezones:	UTC+01:00
-Currencies:	Euro [€](EUR)
+Country:                 Germany 🇩🇪
+Lat/Lng                  51/9
+Population:              83,240,525
+Languages:               German
+Capital:                 Berlin
+Capital Lat/Lng:         52.52/13.4
+Region:                  Europe
+Subregion:               Western Europe
+Timezones:               UTC+01:00
+Top Level Domain:        .de
+Currencies:              Euro [€](EUR)
 
 ```
 

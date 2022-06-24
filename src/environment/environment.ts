@@ -6,5 +6,5 @@ export const environment = {
   syncInterval: 7,
   cacheDir: join(home_dir() as string, ".cache", "countryfetch"),
   queries:
-    "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo",
+    "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo,tld",
 };
