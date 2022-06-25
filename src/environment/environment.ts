@@ -5,6 +5,7 @@ export const environment = {
   baseUrl: "https://restcountries.com/v3.1/",
   syncInterval: 7,
   cacheDir: join(home_dir() as string, ".cache", "countryfetch"),
+  flagWidth: 40,
   queries:
-    "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo,tld",
+    "all?fields=name,capital,currencies,population,flag,languages,region,subregion,timezones,latlng,capitalInfo,tld,flags",
 };

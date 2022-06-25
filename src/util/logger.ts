@@ -2,7 +2,7 @@ import * as nano from "https://deno.land/x/nanocolors@0.1.12/mod.ts";
 import { FetchedCountry } from "../models/FetchedCountry.model.ts";
 
 export class Logger {
-  public log(...data: any) {
+  public log(data: any) {
     console.log(data);
   }
 
@@ -15,7 +15,7 @@ export class Logger {
   }
 
   public error(...data: any) {
-    console.error(data);
+    console.error(nano.red(data));
   }
 
   public logCountry(country: FetchedCountry) {

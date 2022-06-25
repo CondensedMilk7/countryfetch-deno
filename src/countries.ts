@@ -7,13 +7,18 @@ import {
 } from "./models/country.model.ts";
 import { Cache } from "./util/cache.ts";
 import { Logger } from "./util/logger.ts";
+import { ImageConverter } from "./util/image-converter.ts";
 
 export class Countries {
   list: Country[] = [];
   names: string[] = [];
   query = environment.queries;
 
-  constructor(private cache: Cache, private logger: Logger) {}
+  constructor(
+    private cache: Cache,
+    private logger: Logger,
+    private imageConverter: ImageConverter
+  ) {}
 
   public async sync(config?: { force: boolean }): Promise<Country[]> {
     if (this.shouldSync() || config?.force) {
@@ -94,10 +99,18 @@ export class Countries {
     return this.list.filter((country) => country.region === region);
   }
 
-  public print(name: string) {
+  public async print(name: string, flag?: boolean) {
     const country = this.find(name);
     const currencies = this.extractCurrencies(country.currencies);
     const languages = this.extractLanguages(country.languages);
+
+    // TODO: convert all country flags to strings and save them to cache (let's see how that works)
+    const flagImg = await this.imageConverter.getImageStrings(
+      // Replace png with jpg as the library used has trouble with png
+      country.flags["png"].replace(".png", ".jpg")
+    );
+
+    this.logger.log(flagImg[0]);
 
     this.logger.logCountry({
       country: country.name.common,
