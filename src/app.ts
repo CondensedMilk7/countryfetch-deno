@@ -20,7 +20,10 @@ export class App {
         this.logger.help();
         break;
       case "sync":
-        await this.countries.sync({ force: true });
+        await this.countries.sync({
+          force: true,
+          flagAscii: Deno.args[1] === "flags",
+        });
         break;
       case "random":
         await this.countries.print(this.countries.random());

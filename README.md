@@ -49,6 +49,8 @@ countryfetch <arguments>
 - `<country_name>` - Find country information by name.
 - `capital <capital>` - Find country to which the specified capital belongs.
 - `sync` - Fetches data from API and stores it in `~/.cache/countryfetch/countries.json`. This is done automatically, but can be triggered manually.
+  Pass additional argument 'sync flag' to fetch and convert flags in ASCII art.
+  After syncing flags, every countryfetch command will display flag ASCII art.
 - `random` - Get random country information.
 - `raw` - Print country information in raw format as JavaScript object.
 
@@ -71,6 +73,22 @@ Currencies:              Euro [€](EUR)
 
 ```
 
+## Flag ASCII Art
+
+[terminal_images](https://github.com/mjrlowe/terminal_images) library is used for image conversion. If you like my project, you should star
+this project too. Maybe contribute and help the author too!
+
+To enable displaying ASCII art, run `countryfetch sync flags`. This may take a minute, depending on your network connection, as the
+program fetches every flag image from countries data, converts them into ASCII art and stores them in "~/.cache/countryfetch/flags.json".
+This library uses the unstable version of Deno, therefore if you get an error like "X is not a function" you should try passing the `--unstable` flag.
+Due to this, consistency is not guaranteed.
+
+If for some reason you no longer want to display ASCII art, simply delete the flags.json in cache:
+
+```
+rm ~/.cache/countryfetch/flags.json
+```
+
 ## Troubleshooting
 
 If you get an error after installing the newer version of the program, such as "cannot read properties of undefined",
@@ -78,7 +96,7 @@ you might have an outdated cache. Try running `countryfetch sync` to update the 
 
 ## Would be nice to have in the future (a bit ambitious):
 
-- Display country flag in ASCII format (like in neofetch).
+- ~~Display country flag in ASCII format (like in neofetch).~~
 - Users can customize which information to display about country.
 - Get only one particular property about country (for example, get just the timezone of Netherlands).
 - Custom query builder that makes a direct call to api and returns a readable information.

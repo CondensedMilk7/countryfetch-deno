@@ -5,7 +5,7 @@ import {
   Currencies,
   Languages,
 } from "./models/country.model.ts";
-import { FlagMap } from "./models/flag-map.model.ts";
+import { FlagAscii } from "./models/flag-ascii.model.ts";
 import { Cache } from "./util/cache.ts";
 import { Logger } from "./util/logger.ts";
 import { ImageConverter } from "./util/image-converter.ts";
@@ -13,7 +13,7 @@ import { ImageConverter } from "./util/image-converter.ts";
 export class Countries {
   list: Country[] = [];
   names: string[] = [];
-  flags: FlagMap[] = [];
+  flags: FlagAscii[] = [];
   query = environment.queries;
 
   constructor(
@@ -22,7 +22,10 @@ export class Countries {
     private imageConverter: ImageConverter
   ) {}
 
-  public async sync(config?: { force: boolean }): Promise<Country[]> {
+  public async sync(config?: {
+    force?: boolean;
+    flagAscii?: boolean;
+  }): Promise<Country[]> {
     if (this.shouldSync() || config?.force) {
       this.logger.alert(
         "Synchronizing countries database...",
@@ -35,23 +38,25 @@ export class Countries {
       const response = await fetch(environment.baseUrl + this.query);
       const countries = (await response.json()) as Country[];
 
-      this.logger.alert(
-        "Generating ASCII art for each country flag. This may take a minute..."
-      );
-      const flagStrings = await this.generateFlagImgs(countries);
-
       this.list = countries;
-      this.flags = flagStrings;
       this.cache.saveJson("countries", countries);
-      this.cache.saveJson("flags", flagStrings);
       this.cache.saveTxt("last-synced", JSON.stringify(Date.now()));
+
+      if (config?.flagAscii) {
+        this.logger.alert(
+          "Generating ASCII art for each country flag. This may take a minute..."
+        );
+        const flagStrings = await this.generateFlagImgs(countries);
+        this.flags = flagStrings;
+        this.cache.saveJson("flags", flagStrings);
+      }
 
       this.logger.success(
         `Synced successfully: cache saved at ${environment.cacheDir}`
       );
     } else {
       this.list = this.cache.readJson("countries") as Country[];
-      this.flags = this.cache.readJson("flags") as FlagMap[];
+      this.flags = (this.cache.readJson("flags") as FlagAscii[]) || [];
     }
     this.names = this.list.map((c) => c.name.common);
     return this.list;
@@ -113,12 +118,12 @@ export class Countries {
     const country = this.find(name);
     const currencies = this.extractCurrencies(country.currencies);
     const languages = this.extractLanguages(country.languages);
-    const flagMap = this.flags.find(
+    const FlagAscii = this.flags.find(
       (i) => i.countryName === country.name.common
     );
 
-    if (flagMap) {
-      this.logger.log(flagMap.flagString[0]);
+    if (FlagAscii) {
+      this.logger.log(FlagAscii.flagString[0]);
     }
 
     this.logger.logCountry({
@@ -130,7 +135,7 @@ export class Countries {
       region: country.region,
       subregion: country.subregion,
       capitalLatLng: country.capitalInfo.latlng.join("/"),
-      timezones: country.timezones.join("\n\t\t\t "),
+      timezones: country.timezones.join(" | "),
       tld: country.tld.join(" | "),
       currencies,
       languages,
@@ -157,7 +162,7 @@ export class Countries {
       const currency = currencies[currencyAbbr];
       result.push(`${currency.name} [${currency.symbol}](${currencyAbbr})`);
     }
-    return result.join("\n\t\t\t ");
+    return result.join(" | ");
   }
 
   private extractLanguages(languages: Languages) {
@@ -168,7 +173,7 @@ export class Countries {
     return result.join(" | ");
   }
 
-  private async generateFlagImgs(countries: Country[]): Promise<FlagMap[]> {
+  private async generateFlagImgs(countries: Country[]): Promise<FlagAscii[]> {
     const data = [];
     for (const country of countries) {
       // Replace png with jpg as the library used has trouble with png
