@@ -4,6 +4,8 @@
 type CurrencyAbbr = string;
 type CurrencyInfo = { name: string; symbol: string };
 type LangAbbr = string;
+type ImageFormat = "png" | "svg";
+type Flags = Record<ImageFormat, string>;
 
 export type Currencies = Record<CurrencyAbbr, CurrencyInfo>;
 export type Languages = Record<LangAbbr, string>;
@@ -35,4 +37,5 @@ export interface Country {
     latlng: number[];
   };
   tld: string[];
+  flags: Flags;
 }

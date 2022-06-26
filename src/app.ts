@@ -20,10 +20,13 @@ export class App {
         this.logger.help();
         break;
       case "sync":
-        await this.countries.sync({ force: true });
+        await this.countries.sync({
+          force: true,
+          flagAscii: Deno.args[1] === "flags",
+        });
         break;
       case "random":
-        this.countries.print(this.countries.random());
+        await this.countries.print(this.countries.random());
         break;
       case "capital":
         const [, ...args] = Deno.args;
@@ -34,7 +37,7 @@ export class App {
         this.logger.log(this.countries.find(Deno.args[1]));
         break;
       default:
-        this.countries.print(Deno.args.join(" "));
+        await this.countries.print(Deno.args.join(" "), true);
         break;
     }
   }
