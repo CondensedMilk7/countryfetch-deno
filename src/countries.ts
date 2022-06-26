@@ -5,6 +5,7 @@ import {
   Currencies,
   Languages,
 } from "./models/country.model.ts";
+import { FlagMap } from "./models/flag-map.model.ts";
 import { Cache } from "./util/cache.ts";
 import { Logger } from "./util/logger.ts";
 import { ImageConverter } from "./util/image-converter.ts";
@@ -12,6 +13,7 @@ import { ImageConverter } from "./util/image-converter.ts";
 export class Countries {
   list: Country[] = [];
   names: string[] = [];
+  flags: FlagMap[] = [];
   query = environment.queries;
 
   constructor(
@@ -33,8 +35,15 @@ export class Countries {
       const response = await fetch(environment.baseUrl + this.query);
       const countries = (await response.json()) as Country[];
 
+      this.logger.alert(
+        "Generating ASCII art for each country flag. This may take a minute..."
+      );
+      const flagStrings = await this.generateFlagImgs(countries);
+
       this.list = countries;
+      this.flags = flagStrings;
       this.cache.saveJson("countries", countries);
+      this.cache.saveJson("flags", flagStrings);
       this.cache.saveTxt("last-synced", JSON.stringify(Date.now()));
 
       this.logger.success(
@@ -42,6 +51,7 @@ export class Countries {
       );
     } else {
       this.list = this.cache.readJson("countries") as Country[];
+      this.flags = this.cache.readJson("flags") as FlagMap[];
     }
     this.names = this.list.map((c) => c.name.common);
     return this.list;
@@ -103,14 +113,13 @@ export class Countries {
     const country = this.find(name);
     const currencies = this.extractCurrencies(country.currencies);
     const languages = this.extractLanguages(country.languages);
-
-    // TODO: convert all country flags to strings and save them to cache (let's see how that works)
-    const flagImg = await this.imageConverter.getImageStrings(
-      // Replace png with jpg as the library used has trouble with png
-      country.flags["png"].replace(".png", ".jpg")
+    const flagMap = this.flags.find(
+      (i) => i.countryName === country.name.common
     );
 
-    this.logger.log(flagImg[0]);
+    if (flagMap) {
+      this.logger.log(flagMap.flagString[0]);
+    }
 
     this.logger.logCountry({
       country: country.name.common,
@@ -157,5 +166,19 @@ export class Countries {
       result.push(languages[langAbbr]);
     }
     return result.join(" | ");
+  }
+
+  private async generateFlagImgs(countries: Country[]): Promise<FlagMap[]> {
+    const data = [];
+    for (const country of countries) {
+      // Replace png with jpg as the library used has trouble with png
+      const flagUrl = country.flags["png"].replace(".png", ".jpg");
+      const flagString = await this.imageConverter.getImageStrings(flagUrl);
+      data.push({
+        countryName: country.name.common,
+        flagString,
+      });
+    }
+    return data;
   }
 }

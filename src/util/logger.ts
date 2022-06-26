@@ -1,5 +1,5 @@
 import * as nano from "https://deno.land/x/nanocolors@0.1.12/mod.ts";
-import { FetchedCountry } from "../models/FetchedCountry.model.ts";
+import { FetchedCountry } from "../models/fetched-country.model.ts";
 
 export class Logger {
   public log(data: any) {
