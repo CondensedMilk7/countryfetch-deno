@@ -10,6 +10,8 @@
 
 ## Installation
 
+### Default Way
+
 clone this repository:
 
 ```bash
@@ -23,9 +25,11 @@ cd ./countryfetch
 ./install.sh
 ```
 
-The app should now be installed.
+The app should now be installed. This method should work for most users.
 
-alternatively, you can compile it yourself and store it in your local bin directory (might be safer):
+### Another Way
+
+alternatively, you can compile it yourself and store it in your local bin directory:
 
 ```bash
 deno compile --allow-all index.ts
@@ -37,6 +41,7 @@ If after this your shell cannot find countryfetch, this means you haven't added 
 ```bash
 alias countryfetch="~/.local/bin/countryfetch"
 ```
+> **Note:** The executable you get from compilation can be stored and accessed from anywhere. Using the default way (install.sh), the installer simply runs `deno install --allow-all` and stores the executable in ~/.deno/bin/, which (if you have installed deno) should already be added to PATH, therefore you don't need any aliases. Your shell should be able to detect the command `countryfetch`.
 
 ## Usage
 
