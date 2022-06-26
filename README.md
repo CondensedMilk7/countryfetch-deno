@@ -1,6 +1,6 @@
 # countryfetch
 
-A cli tool for fetching information about countries. It uses https://restcountries.com/ API for backend.
+**A cli tool for fetching information about countries. It uses https://restcountries.com/ API for backend.**
 
 ![](./images/countryfetch.png)
 
@@ -59,24 +59,23 @@ countryfetch <arguments>
 ```
 $ countryfetch germany
 
-Country:                 Germany 🇩🇪
-Lat/Lng                  51/9
-Population:              83,240,525
-Languages:               German
-Capital:                 Berlin
-Capital Lat/Lng:         52.52/13.4
-Region:                  Europe
-Subregion:               Western Europe
-Timezones:               UTC+01:00
-Top Level Domain:        .de
-Currencies:              Euro [€](EUR)
-
+Country: Germany 🇩🇪
+Lat/Lng: 51/9
+Population: 83,240,525
+Languages: German
+Capital: Berlin
+Capital Lat/Lng: 52.52/13.4
+Region: Europe
+Subregion: Western Europe
+Timezones: UTC+01:00
+Top Level Domain: .de
+Currencies: Euro [€](EUR)
 ```
 
 ## Flag ASCII Art
 
 [terminal_images](https://github.com/mjrlowe/terminal_images) library is used for image conversion. If you like my project, you should star
-this project too. Maybe contribute and help the author too!
+this project as well. Maybe contribute and help the author too!
 
 To enable displaying ASCII art, run `countryfetch sync flags`. This may take a minute, depending on your network connection, as the
 program fetches every flag image from countries data, converts them into ASCII art and stores them in "~/.cache/countryfetch/flags.json".
@@ -97,6 +96,7 @@ you might have an outdated cache. Try running `countryfetch sync` to update the 
 ## Would be nice to have in the future (a bit ambitious):
 
 - ~~Display country flag in ASCII format (like in neofetch).~~
+- Better arguments and options passing/handling.
 - Users can customize which information to display about country.
 - Get only one particular property about country (for example, get just the timezone of Netherlands).
 - Custom query builder that makes a direct call to api and returns a readable information.
