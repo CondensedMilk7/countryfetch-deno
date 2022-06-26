@@ -49,7 +49,7 @@ countryfetch <arguments>
 - `<country_name>` - Find country information by name.
 - `capital <capital>` - Find country to which the specified capital belongs.
 - `sync` - Fetches data from API and stores it in `~/.cache/countryfetch/countries.json`. This is done automatically, but can be triggered manually.
-  Pass additional argument 'sync flag' to fetch and convert flags in ASCII art.
+  Pass additional argument `sync flag` to fetch and convert flags in ASCII art.
   After syncing flags, every countryfetch command will display flag ASCII art.
 - `random` - Get random country information.
 - `raw` - Print country information in raw format as JavaScript object.
