@@ -28,7 +28,7 @@ The app should now be installed.
 alternatively, you can compile it yourself and store it in your local bin directory (might be safer):
 
 ```bash
-deno compile --allow-all main.ts
+deno compile --allow-all index.ts
 cp ./countryfetch  ~/.local/bin
 ```
 
