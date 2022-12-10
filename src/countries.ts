@@ -43,10 +43,9 @@ export class Countries {
       this.cache.saveTxt("last-synced", JSON.stringify(Date.now()));
 
       if (config?.flagAscii) {
-        this.logger.alert(
-          "Generating ASCII art for each country flag. This may take a minute..."
-        );
-        const flagStrings = await this.generateFlagImgs(countries);
+        const logTitle =
+          "Generating ASCII art for each country flag. This may take a minute...";
+        const flagStrings = await this.generateFlagImgs(countries, logTitle);
         this.flags = flagStrings;
         this.cache.saveJson("flags", flagStrings);
       }
@@ -173,8 +172,12 @@ export class Countries {
     return result.join(" | ");
   }
 
-  private async generateFlagImgs(countries: Country[]): Promise<FlagAscii[]> {
+  private async generateFlagImgs(
+    countries: Country[],
+    logTitle?: string
+  ): Promise<FlagAscii[]> {
     const data = [];
+    let index = 0;
     for (const country of countries) {
       // Replace png with jpg as the library used has trouble with png
       const flagUrl = country.flags["png"].replace(".png", ".jpg");
@@ -182,6 +185,11 @@ export class Countries {
       data.push({
         countryName: country.name.common,
         flagString,
+      });
+      index++;
+      this.logger.progress(index, countries.length, {
+        title: logTitle,
+        description: "Generating a flag for " + country.name.common,
       });
     }
     return data;
