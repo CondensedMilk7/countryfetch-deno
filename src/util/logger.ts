@@ -18,6 +18,18 @@ export class Logger {
     console.error(nano.red(data));
   }
 
+  public progress(
+    current: number,
+    total: number,
+    config?: { title: string; description: string }
+  ) {
+    console.clear();
+    if (config?.title) {
+      this.alert(config.title);
+    }
+    console.log(`${current}/${total} ${config?.description || ""}`);
+  }
+
   public logCountry(country: FetchedCountry) {
     console.log(
       nano.cyan("Country:"),
