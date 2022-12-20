@@ -2,14 +2,10 @@ import { Countries } from "./countries.ts";
 import { Logger } from "./util/logger.ts";
 
 export class App {
-  constructor(
-    // private cache: Cache,
-    private logger: Logger,
-    private countries: Countries
-  ) {}
+  constructor(private logger: Logger, private countries: Countries) {}
 
-  async run() {
-    const command = Deno.args[0];
+  async run(): Promise<void> {
+    const [command, ...args] = Deno.args;
 
     await this.countries.sync();
     switch (command) {
@@ -22,22 +18,20 @@ export class App {
       case "sync":
         await this.countries.sync({
           force: true,
-          flagAscii: Deno.args[1] === "flags",
+          flagAscii: args[0] === "flags",
         });
         break;
       case "random":
-        await this.countries.print(this.countries.random());
+        this.countries.print(this.countries.random());
         break;
       case "capital":
-        const [, ...args] = Deno.args;
-        const capital = args.join(" ");
-        this.countries.capitalOf(capital);
+        this.countries.capitalOf(args.join(" "));
         break;
       case "raw":
-        this.logger.log(this.countries.find(Deno.args[1]));
+        this.logger.log(this.countries.find(args[0]));
         break;
       default:
-        await this.countries.print(Deno.args.join(" "), true);
+        this.countries.print(Deno.args.join(" "));
         break;
     }
   }

@@ -21,7 +21,7 @@ export class Logger {
   public progress(
     current: number,
     total: number,
-    config?: { title: string; description: string }
+    config?: { title?: string; description: string }
   ) {
     console.clear();
     if (config?.title) {

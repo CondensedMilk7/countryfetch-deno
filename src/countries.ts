@@ -61,11 +61,7 @@ export class Countries {
     return this.list;
   }
 
-  getAll() {
-    return this.list;
-  }
-
-  public find(name: string) {
+  public find(name: string): Country {
     name = name.toLowerCase();
 
     // Find exact match first
@@ -89,31 +85,11 @@ export class Countries {
     return country;
   }
 
-  public findByCapital(capital: string) {
-    const country = this.list.find((c) => {
-      const capitalsLowercase = c.capital.map((capital) =>
-        capital.toLowerCase()
-      );
-      return capitalsLowercase.includes(capital);
-    });
-
-    if (!country) {
-      throw `Could not find the country of capital: ${capital}`;
-    }
-
-    return country;
-  }
-
-  capitalOf(capital: string) {
-    const country = this.findByCapital(capital);
-    this.logger.capitalOf(capital, country.name.common);
-  }
-
   public filterByRegion(region: Region) {
     return this.list.filter((country) => country.region === region);
   }
 
-  public async print(name: string, flag?: boolean) {
+  public print(name: string) {
     const country = this.find(name);
     const currencies = this.extractCurrencies(country.currencies);
     const languages = this.extractLanguages(country.languages);
@@ -144,6 +120,30 @@ export class Countries {
   public random(): string {
     const randomNum = Math.floor(Math.random() * this.names.length);
     return this.names[randomNum];
+  }
+
+  public capitalOf(capital: string): void {
+    if (!capital) {
+      this.logger.error("Must provide a capital name.");
+      return;
+    }
+    const country = this.findByCapital(capital);
+    this.logger.capitalOf(capital, country.name.common);
+  }
+
+  private findByCapital(capital: string): Country {
+    const country = this.list.find((c) => {
+      const capitalsLowercase = c.capital.map((capital) =>
+        capital.toLowerCase()
+      );
+      return capitalsLowercase.includes(capital);
+    });
+
+    if (!country) {
+      throw `Could not find the country of capital: ${capital}`;
+    }
+
+    return country;
   }
 
   private shouldSync() {
