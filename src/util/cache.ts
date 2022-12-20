@@ -4,11 +4,13 @@ import {
   existsSync,
 } from "https://deno.land/std@0.78.0/fs/mod.ts";
 import { environment } from "../environment/environment.ts";
+import { Country } from "../models/country.model.ts";
+import { FlagAscii } from "../models/flag-ascii.model.ts";
 
 export class Cache {
   path = environment.cacheDir;
 
-  public saveJson(name: string, data: {}) {
+  public saveJson(name: string, data: Country[] | FlagAscii[]) {
     ensureDirSync(this.path);
 
     Deno.writeTextFileSync(
@@ -22,11 +24,11 @@ export class Cache {
     Deno.writeTextFileSync(join(this.path, `${name}.txt`), value);
   }
 
-  public readJson(name: string): {} | [] | undefined {
+  public readJson(name: string): any {
     let data;
     try {
       data = Deno.readTextFileSync(join(this.path, `${name}.json`));
-    } catch (err) {
+    } catch {
       return undefined;
     }
     return JSON.parse(data);
@@ -35,7 +37,7 @@ export class Cache {
   public readTxt(name: string) {
     try {
       return Deno.readTextFileSync(join(this.path, `${name}.txt`));
-    } catch (err) {
+    } catch {
       return undefined;
     }
   }
