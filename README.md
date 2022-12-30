@@ -4,6 +4,8 @@
 
 ![](./images/countryfetch.png)
 
+> **Note:** The [Go version of countryfetch](https://github.com/CondensedMilk7/countryfetch-go) is in development.
+
 ## Dependencies
 
 [DENO](https://deno.land/)
