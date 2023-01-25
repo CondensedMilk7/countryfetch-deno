@@ -4,7 +4,7 @@
 
 ![](./images/countryfetch.png)
 
-> **Note:** The [Go version of countryfetch](https://github.com/CondensedMilk7/countryfetch-go) is in development.
+> **Note:** The [Go version of countryfetch](https://github.com/CondensedMilk7/countryfetch) is available.
 
 ## Dependencies
 
@@ -17,13 +17,13 @@
 clone this repository:
 
 ```bash
-git clone https://github.com/CondensedMilk7/countryfetch.git
+git clone https://github.com/CondensedMilk7/countryfetch-deno.git
 ```
 
 navigate to the cloned repo folder and run install:
 
 ```bash
-cd ./countryfetch
+cd ./countryfetch-deno
 ./install.sh
 ```
 
@@ -111,4 +111,4 @@ you might have an outdated cache. Try running `countryfetch sync` to update the 
 
 ## Contribution
 
-I will add new features when I have time, but you don't have to wait - add them yourself! Submit pull requests, or fork it and make it your own alltogether.
+I will add new features when I have time, but you don't have to wait - add them yourself! Fork it and submit pull requests.

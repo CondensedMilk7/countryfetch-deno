@@ -1,3 +1,3 @@
 #!/bin/sh
 
-deno install --allow-all "$@" ./index.ts 
+deno install --allow-all -n countryfetch "$@" ./index.ts 
