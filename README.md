@@ -6,6 +6,10 @@
 
 > **Note:** The [Go version of countryfetch](https://github.com/CondensedMilk7/countryfetch) is available.
 
+> **IMPORTANT:** Please [support restcountries.com](https://restcountries.com/#donations) if you can,
+> as it is going to shut down by the end of May 2023 due to the lack of funding,
+> which means this CLI tool will become obsolete.
+
 ## Dependencies
 
 [DENO](https://deno.land/)
