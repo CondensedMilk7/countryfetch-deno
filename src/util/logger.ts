@@ -75,7 +75,7 @@ export class Logger {
       "\nARGS:\n",
       "\tsync",
       "\n\t\tSynchronize database. Stores countries' data in ~/.cache/countryfetch/countries.json.",
-      "\n\t\tPass additional argument 'sync flag' to fetch and convert flags in ASCII art.",
+      "\n\t\tPass additional argument 'sync flags' to fetch and convert flags in ASCII art.",
       "\n\t\tAfter syncing flags, every countryfetch command will display flag ASCII art.",
       "\n",
       "\n\trandom",
